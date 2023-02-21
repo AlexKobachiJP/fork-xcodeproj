@@ -12,6 +12,9 @@ private func sortUsingNames(_ lhs: PBXBuildFile, _ rhs: PBXBuildFile) -> Bool {
     if let lhsFile = lhs.file, let rhsFile = rhs.file {
         return sortUsingNames(lhsFile, rhsFile)
     }
+    if let lhsProduct = lhs.product, let rhsProduct = rhs.product {
+        return sortUsingNames(lhsProduct, rhsProduct)
+    }
     return lhs.uuid < rhs.uuid
 }
 
@@ -20,6 +23,12 @@ private func sortUsingNames(_ lhs: PBXFileElement, _ rhs: PBXFileElement) -> Boo
         return lhsFilename == rhsFilename ? lhs.uuid < rhs.uuid : lhsFilename < rhsFilename
     }
     return lhs.uuid < rhs.uuid
+}
+
+private func sortUsingNames(_ lhs: XCSwiftPackageProductDependency, _ rhs: XCSwiftPackageProductDependency) -> Bool {
+    let lhsProductname = lhs.productName
+    let rhsProductname = rhs.productName
+    return lhsProductname == rhsProductname ? lhs.uuid < rhs.uuid : lhsProductname < rhsProductname
 }
 
 // MARK: - Sorting enums
